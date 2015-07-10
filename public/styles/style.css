@@ -1,0 +1,42 @@
+#headerDiv {
+	background-color: teal;
+	color: black;
+}
+
+body {
+	background-color: teal;
+}
+
+#addNewPost {
+	text-align: right;
+}
+
+.jumbotron {
+	background-image: url("images/thinker.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center center;
+}
+
+.post-container {
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	background-color:#DDD;
+}
+
+h1 {
+	text-align: left;
+	font-weight: bold;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: large;
+    color: black;
+}

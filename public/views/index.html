@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	<!-- local CSS -->
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+
+	<title>Microblog</title>
+</head>
+<body>
+
+<div class="container">
+	<!--Header-->
+	<div class="jumbotron" id="headerDiv">
+	  <h1>What's on your mind?</h1>
+	  <p id="addNewPost"><a href="#" data-toggle="modal" data-target="#add-post-modal" class="btn btn-primary">Add New Post</a></p>
+	</div>
+	<!--/Header-->
+
+	<!--Add Post Modal-->
+	<div class="modal fade" id="add-post-modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">What's on your mind?</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form id="add-post-form">
+	          <div class="form-group">
+	            <label class="control-label">Name:</label>
+	            <input type="text" class="form-control" id="user" required>
+	          </div>
+	          <div class="form-group">
+	            <label class="control-label">Thoughts:</label>
+	            <textarea class="form-control" id="thoughts" rows="3" maxlength="200" placeholder="200 characters or less" required></textarea>
+	          </div>
+	          <div>
+	          	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+	        	<input type="submit" class="btn btn-success" id="submitPost">
+	          </div>
+	        </form>
+	      </div><!-- /.modal body-->
+	    </div><!-- /.modal content-->
+	  </div> <!-- /.modal dialog -->
+	</div><!-- /.modal -->
+	<!--/Add Post Modal-->
+
+	<!--Post Area-->
+	<div class="col-md-6 col-md-offset-3" id="feed">
+		<!-- Sample Post -->
+		<div class="post-container">
+			<h4>Sample User</h4>
+			<h5>Date</h5>
+			<p>User's thoughts...</p>
+		</div>
+		<!-- /Sample Post -->
+	</div>
+	<!--/Post Area-->
+
+	<!-- this is the renderTemplate -->
+	<script type="text/template" id="post-template">
+		<div class="post-container">
+				<h4><%= user %></h4>
+				<h5><%= date %></h5>
+				<p><%= thoughts %></p>
+		</div>
+	</script>
+	<!--/ end of renderTemplate -->
+
+</div>
+
+<div class="footer">
+	<p id="footer"></p>
+</div>
+
+
+
+	<!-- jquery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+	<!-- bootstrap js -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<!-- underscore -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+    <!-- local js -->
+	<script type="text/javascript" src="scripts/script.js"></script>
+
+</body>
+</html>
