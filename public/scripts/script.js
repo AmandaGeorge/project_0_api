@@ -1,110 +1,128 @@
-$(document).ready(function() {
-	console.log("working js");
+// CLIENT-SIDE JAVASCRIPT
 
-	var $form = $("#add-post-form");
-	var $feed = $("#feed");
+$(function() {
+	console.log('working js');
 
-	var $userName = $("#user");
-	var $thoughts = $("#thoughts");
-	var $submit = $("#submitPost");
-	var counter = 0;
+    var postsController = {
 
-	//To compile the template
-	var _postTemplate = _.template($("#post-template").html());
+        //To compile the template
+        template: _.template($('#post-template').html()),
 
-	var testPosts = [
-		{user: "Amanda", toughts: "Working on it"},
-		{user: "Amelia", toughts: "Frogs"}
-	];
+        all: function() {
+            //send GET request to server to get all posts
+            $.get('/api/posts', function(data) {
+                var allPosts = data;
 
-	//Post constructor
-	function Post(user, thoughts, date) {
-		this.user = user;
-		this.date = date;
-		this.thoughts = thoughts;
+                // iterate through each post
+                _.each(allPosts, function(post) {
+                    var $postHtml = $(postsController.template(post));
+                    $('#feed').prepend($postHtml);
+                });
+                // add event-handlers to posts for updating/deleting
+                postsController.addEventHandlers();
+            });
+        },
 
-		// this.items = localStorage.getItem("posts");
-		// this.key = "posts";
-	}
+        create: function(newUser, newThoughts, newDate) {
+            var postData = {user: newUser, thoughts: newThoughts, date: newDate};
+            
+            //send POST request to server to create new post
+            $.post('api/posts', postData, function(data) {
+                var $postHtml = $(postsController.template(data));
+                $('#feed').prepend($postHtml);
+                console.log(postData);
+            });
+        },
 
-	Post.all_posts = [];
+        update: function(postId, updatedUser, updatedThoughts, updatedDate) {
+            $.ajax({
+                type: 'PUT',
+                url: 'api/posts' + postId,
+                data: {
+                    user: updatedUser,
+                    thoughts: updatedThoughts,
+                    date: updatedDate
+                },
+                success: function(data) {
+                    //replace existing post in view with updated version
+                    var $postHtml = $(postsController.template(data));
+                    $('#post-' + postId).replaceWith($postHtml);
+                }
+            });
+        },
 
-	// function SaveRender() {
-	// 	var myPost = new Post($userName.val(), $thoughts.val());
-	// 	myPost.saveToLs;
-	// 	myPost.renderTemplate;
+        delete: function(postId) {
+            //send DELETE request to server to delete post
+            $.ajax({
+                type: 'DELETE',
+                url: 'api/posts/' + postId,
+                success: function(data) {
+                    //remove deleted post from view
+                    $('#post-' + postId).remove();
+                }
+            });
+        },
 
-	// 	// $modal[0].reset();
-	// 	// $("#user").focus();
-	// }
+        addEventHandlers: function() {
+            $('#feed')
 
-	Post.prototype.save = function() {
-		// console.log("saving to LS");
-		// if (this.items) {
-		// 	items_json = JSON.parse(this.items);
-		// } else {
-		// 	items_json = [];
-		// }
-		// items_json.push(item);
-		// localStorage.setItem(this.key, JSON.stringify(items_json));
-		Post.all_posts.push(this);
-	}
+                //for update: submit event on udpate-post form
+                .on('submit', '.update-post-button', function(event) {
+                    event.preventDefault();
 
-	Post.prototype.renderTemplate = function() {
-		// console.log("rendering template");
-		// var items_json = JSON.parse(this.items);
-		// var template = _.template($(template_source).html());
+                    //find the post's id (stored as 'data-id')
+                    var postId = $(this).closest('.post').attr('data-id');
 
-		// _.each(items_json, function(item) {
-		// 	$(where).append(template(item));
-		// });
-		var $post = $(_postTemplate(this));
-		$feed.prepend($post);
-	}
+                    //update the post with form data
+                    var updatedUser = $(this).find('.updated-user').val();
+                    var updatedThoughts = $(this).find('.updated-thoughts').val();
+                    var utcSeconds = Date.now();
+                    var updatedDate = new Date(utcSeconds);
+                    postsController.update(postId, updatedUser, updatedThoughts, updatedDate);
+                })
 
-	// Post.prototype = new SaveRender();
-	// Post.prototype.constructor = Post;
+                .on('click', '.delete-post-button', function(event) {
+                    event.preventDefault();
 
-	// var post1 = new Post("Amanda", "Does this work?");
-	// post1.saveToLs(post1);
-	// post1.renderTemplate("#post-template", "#feed");
+                    //find the post's id (stored as 'data-id')
+                    var postId = $(this).closest('.post').attr('data-id');
 
-	// ALL BELOW IS INSPIRED BY THE TODO APP
-	// Post.all_posts = [];
+                    //delete the post
+                    postsController.delete(postId);
+                });
+        },
 
-	// Post.prototype.save = function() {
-	// 	Post.all_posts.push(this);
-	// }
+        setupView: function() {
+            //append existing posts to view
+            postsController.all();
 
-	// Post.prototype.render = function() {
-	// 	var $post = $(_postTemplate(this));
-	// 	$feed.prepend($post);
-	// }
+            //add event handler to new post modal
+            $('#add-post-modal').on('shown.bs.modal', function() {
+                $('#user').focus();
+            });
 
-	$("#add-post-modal").on("shown.bs.modal", function() {
-	  $(this).find("input:first").focus();
-	});
+            //add event-handler to new post form ($form)
+            $('#add-post-form').on('submit', function(event) {
+                event.preventDefault();
+                console.log('i got clicked');
+                
+                //create new post with form data
+                var newUser = $('#user').val();
+                var newThoughts = $('#thoughts').val();
+                var utcSeconds = Date.now();
+                var newDate = new Date(utcSeconds);
+                postsController.create(newUser, newThoughts, newDate);
 
-	$form.on("submit",
-		function(event) {
-			event.preventDefault();
-			console.log("i got clicked");
-			// event.preventDefault();
-			// SaveRender();
-			var utcSeconds = Date.now();
-			var date = new Date(utcSeconds);
-			var myPost = new Post($userName.val(), $thoughts.val(), date);
-			myPost.save();
-			myPost.renderTemplate();
+                //to hide the modal after submitting a new post
+                $('#add-post-modal').modal('hide');
 
-			$("#add-post-modal").modal("hide");
-			
-			// $form.reset();
-			// $("#item-name").focus();
+                //reset the form
+                $(this)[0].reset();
+                $('#user').focus();
+            });
+        }
+    };	
 
-			counter += 1;
-			$("#footer").html("Total posts: " + counter);
-		}
-	);
+    postsController.setupView();
 
-})
+});
