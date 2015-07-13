@@ -37,7 +37,7 @@ $(function() {
         update: function(postId, updatedUser, updatedThoughts, updatedDate) {
             $.ajax({
                 type: 'PUT',
-                url: 'api/posts' + postId,
+                url: 'api/posts/' + postId,
                 data: {
                     user: updatedUser,
                     thoughts: updatedThoughts,
@@ -67,7 +67,7 @@ $(function() {
             $('#feed')
 
                 //for update: submit event on udpate-post form
-                .on('submit', '.update-post-button', function(event) {
+                .on('submit', '.update-post-form', function(event) {
                     event.preventDefault();
 
                     //find the post's id (stored as 'data-id')
@@ -79,6 +79,7 @@ $(function() {
                     var utcSeconds = Date.now();
                     var updatedDate = new Date(utcSeconds);
                     postsController.update(postId, updatedUser, updatedThoughts, updatedDate);
+                    console.log(postId, updatedUser, updatedThoughts, updatedDate);
                 })
 
                 .on('click', '.delete-post-button', function(event) {
@@ -89,7 +90,7 @@ $(function() {
 
                     //delete the post
                     postsController.delete(postId);
-                });
+                })
         },
 
         setupView: function() {
