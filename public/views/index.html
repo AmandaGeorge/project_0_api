@@ -16,7 +16,7 @@
 <div class="container">
 	<!--Header-->
 	<div class="jumbotron" id="headerDiv">
-	  <h1>What's on your mind?</h1>
+	  <h1><span>What's on your mind?</span></h1>
 	  <p id="addNewPost"><a href="#" data-toggle="modal" data-target="#add-post-modal" class="btn btn-primary">Add New Post</a></p>
 	</div>
 	<!--/Header-->
@@ -50,24 +50,45 @@
 	</div><!-- /.modal -->
 	<!--/Add Post Modal-->
 
-	<!--Post Area-->
-	<div class="col-md-6 col-md-offset-3" id="feed">
+	<!--Post Area (appended to page with AJAX, underscore, and jQuery-->
+	<div class="col-md-8 col-md-offset-2" id="feed">
 		<!-- Sample Post -->
+		<!-- <br>
 		<div class="post-container">
 			<h4>Sample User</h4>
 			<h5>Date</h5>
 			<p>User's thoughts...</p>
-		</div>
+			<div>
+			  <a data-id="<%= _id %>" href="#" class="btn btn-default edit-post-button">Edit Post</a>
+			  <a data-id="<%= _id %>" href="#" class="btn btn-default delete-post-button">Delete Post</a>
+			</div>
+		</div> -->
 		<!-- /Sample Post -->
 	</div>
 	<!--/Post Area-->
 
-	<!-- this is the renderTemplate -->
+	<!-- this is the template -->
 	<script type="text/template" id="post-template">
-		<div class="post-container">
+		<br>
+		<div class="post-container post" id="post-<%= _id %>" data-id="<%= _id %>">
 				<h4><%= user %></h4>
 				<h5><%= date %></h5>
 				<p><%= thoughts %></p>
+				<!-- edit button -->
+				<div>
+				  <a href="#" class="btn btn-default edit-post-button" data-toggle="collapse" data-target="#update-<%= _id %>">Edit Post</a>
+				  <a href="#" class="btn btn-default delete-post-button">Delete Post</a>
+				</div>
+
+				<!-- form to update post -->
+				<div class="collapse" id="update-<%= _id %>">
+					<br>
+					<form class="form-inline update-post-form">
+					    <input type="text" class="form-control updated-user" value="<%= user %>" placeholder="New user name">
+					    <input class="form-control updated-thoughts" value="<%= thoughts %>" rows="3" maxlength="200" placeholder="New thoughts"></input>
+						<input type="submit" class="btn btn-success" value="Update post">
+					</form>
+				</div>
 		</div>
 	</script>
 	<!--/ end of renderTemplate -->

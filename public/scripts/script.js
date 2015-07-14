@@ -10,7 +10,7 @@ $(function() {
 
         all: function() {
             //send GET request to server to get all posts
-            $.get('/api/posts', function(data) {
+            $.get('/posts', function(data) {
                 var allPosts = data;
 
                 // iterate through each post
@@ -27,7 +27,7 @@ $(function() {
             var postData = {user: newUser, thoughts: newThoughts, date: newDate};
             
             //send POST request to server to create new post
-            $.post('api/posts', postData, function(data) {
+            $.post('/posts', postData, function(data) {
                 var $postHtml = $(postsController.template(data));
                 $('#feed').prepend($postHtml);
                 console.log(postData);
@@ -37,7 +37,7 @@ $(function() {
         update: function(postId, updatedUser, updatedThoughts, updatedDate) {
             $.ajax({
                 type: 'PUT',
-                url: 'api/posts/' + postId,
+                url: '/posts/' + postId,
                 data: {
                     user: updatedUser,
                     thoughts: updatedThoughts,
@@ -55,7 +55,7 @@ $(function() {
             //send DELETE request to server to delete post
             $.ajax({
                 type: 'DELETE',
-                url: 'api/posts/' + postId,
+                url: '/posts/' + postId,
                 success: function(data) {
                     //remove deleted post from view
                     $('#post-' + postId).remove();
