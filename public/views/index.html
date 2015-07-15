@@ -33,7 +33,7 @@
 	        <form id="add-post-form">
 	          <div class="form-group">
 	            <label class="control-label">Name:</label>
-	            <input type="text" class="form-control" id="user" required>
+	            <input type="text" class="form-control" id="author" required>
 	          </div>
 	          <div class="form-group">
 	            <label class="control-label">Thoughts:</label>
@@ -55,9 +55,9 @@
 		<!-- Sample Post -->
 		<!-- <br>
 		<div class="post-container">
-			<h4>Sample User</h4>
+			<h4>Sample author</h4>
 			<h5>Date</h5>
-			<p>User's thoughts...</p>
+			<p>author's thoughts...</p>
 			<div>
 			  <a data-id="<%= _id %>" href="#" class="btn btn-default edit-post-button">Edit Post</a>
 			  <a data-id="<%= _id %>" href="#" class="btn btn-default delete-post-button">Delete Post</a>
@@ -71,10 +71,10 @@
 	<script type="text/template" id="post-template">
 		<br>
 		<div class="post-container post" id="post-<%= _id %>" data-id="<%= _id %>">
-				<h4><%= user %></h4>
+				<h4><%= author %></h4>
 				<h5><%= date %></h5>
 				<p><%= thoughts %></p>
-				<!-- edit button -->
+				<!-- edit and delete buttons -->
 				<div>
 				  <a href="#" class="btn btn-default edit-post-button" data-toggle="collapse" data-target="#update-<%= _id %>">Edit Post</a>
 				  <a href="#" class="btn btn-default delete-post-button">Delete Post</a>
@@ -84,7 +84,7 @@
 				<div class="collapse" id="update-<%= _id %>">
 					<br>
 					<form class="form-inline update-post-form">
-					    <input type="text" class="form-control updated-user" value="<%= user %>" placeholder="New user name">
+					    <input type="text" class="form-control updated-author" value="<%= author %>" placeholder="New author name">
 					    <input class="form-control updated-thoughts" value="<%= thoughts %>" rows="3" maxlength="200" placeholder="New thoughts"></input>
 						<input type="submit" class="btn btn-success" value="Update post">
 					</form>

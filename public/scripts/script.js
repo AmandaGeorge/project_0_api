@@ -23,8 +23,8 @@ $(function() {
             });
         },
 
-        create: function(newUser, newThoughts, newDate) {
-            var postData = {user: newUser, thoughts: newThoughts, date: newDate};
+        create: function(newAuthor, newThoughts, newDate) {
+            var postData = {author: newAuthor, thoughts: newThoughts, date: newDate};
             
             //send POST request to server to create new post
             $.post('/posts', postData, function(data) {
@@ -34,12 +34,12 @@ $(function() {
             });
         },
 
-        update: function(postId, updatedUser, updatedThoughts, updatedDate) {
+        update: function(postId, updatedAuthor, updatedThoughts, updatedDate) {
             $.ajax({
                 type: 'PUT',
                 url: '/posts/' + postId,
                 data: {
-                    user: updatedUser,
+                    author: updatedAuthor,
                     thoughts: updatedThoughts,
                     date: updatedDate
                 },
@@ -74,12 +74,12 @@ $(function() {
                     var postId = $(this).closest('.post').attr('data-id');
 
                     //update the post with form data
-                    var updatedUser = $(this).find('.updated-user').val();
+                    var updatedAuthor = $(this).find('.updated-author').val();
                     var updatedThoughts = $(this).find('.updated-thoughts').val();
                     var utcSeconds = Date.now();
                     var updatedDate = new Date(utcSeconds);
-                    postsController.update(postId, updatedUser, updatedThoughts, updatedDate);
-                    console.log(postId, updatedUser, updatedThoughts, updatedDate);
+                    postsController.update(postId, updatedAuthor, updatedThoughts, updatedDate);
+                    console.log(postId, updatedAuthor, updatedThoughts, updatedDate);
                 })
 
                 .on('click', '.delete-post-button', function(event) {
@@ -99,7 +99,7 @@ $(function() {
 
             //add event handler to new post modal
             $('#add-post-modal').on('shown.bs.modal', function() {
-                $('#user').focus();
+                $('#author').focus();
             });
 
             //add event-handler to new post form ($form)
@@ -108,18 +108,18 @@ $(function() {
                 console.log('i got clicked');
                 
                 //create new post with form data
-                var newUser = $('#user').val();
+                var newAuthor = $('#author').val();
                 var newThoughts = $('#thoughts').val();
                 var utcSeconds = Date.now();
                 var newDate = new Date(utcSeconds);
-                postsController.create(newUser, newThoughts, newDate);
+                postsController.create(newAuthor, newThoughts, newDate);
 
                 //to hide the modal after submitting a new post
                 $('#add-post-modal').modal('hide');
 
                 //reset the form
                 $(this)[0].reset();
-                $('#user').focus();
+                $('#author').focus();
             });
         }
     };	

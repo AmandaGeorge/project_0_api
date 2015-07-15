@@ -18,12 +18,54 @@ body {
 	background-color: rgba(255, 255, 255, 0.5);
 }
 
+.btn-primary {
+	background-color: #003F77;
+}
+
+.btn-primary:hover {
+	background-color: #3F6075;
+}
+
+.edit-post-button {
+	background-color: #009E60;
+	color: white;
+}
+
+.edit-post-button:hover {
+	background-color: #024930;
+	color: white;
+}
+
+.delete-post-button {
+	background-color: #3F6075;
+	color: white;
+}
+
+.delete-post-button:hover {
+	background-color: #003F77;
+	color: white;
+}
+
+.btn-success {
+	background-color: #009E60;
+	color: white;
+}
+
+.btn-success:hover {
+	background-color: #024930;
+	color: white;
+}
+
 .post-container {
 	padding: 10px;
 	border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.modal-content {
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 h1 {
@@ -33,7 +75,23 @@ h1 {
 
 h1 span {
 	/*background-color: white;*/
-	color: black;
+	color: #003F77;
+}
+
+h4 {
+	color: #024930;
+}
+
+h5 {
+	color: #024930;
+}
+
+p {
+	color: #024930;
+}
+
+label {
+	color: #024930;
 }
 
 .footer {
